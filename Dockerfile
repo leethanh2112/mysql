@@ -21,5 +21,5 @@ RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/my.cnf
 
 VOLUME /var/lib/mysql
 EXPOSE 3306
-CMD ["mysqld"]
+CMD ["mysqld", "--user=root"]
 
