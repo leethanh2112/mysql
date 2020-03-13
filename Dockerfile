@@ -16,7 +16,7 @@ RUN echo "ZONE=\"Asia/Ho_Chi_Minh\"" > /etc/sysconfig/clock && \
   rm -rf /etc/localtime && \
   ln -s /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 
-RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/my.cnf
+RUN sed '2ibind-address=0.0.0.0' /etc/my.cnf
 
 VOLUME /var/lib/mysql
 VOLUME /var/log/mariadb
