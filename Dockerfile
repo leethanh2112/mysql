@@ -1,11 +1,12 @@
 FROM centos:7
 MAINTAINER ThanhCL
 
-#ADD MariaDB.repo /etc/yum.repos.d/MariaDB.repo
+ADD MariaDB.repo /etc/yum.repos.d/MariaDB.repo
 
 #updated os, install some lib packages
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
   rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7 && \
+  rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB && \
   yum clean all && \
   yum install -y epel-release && \
   yum install -y MariaDB-server MariaDB-client telnet ntp  wget net-tools && \
