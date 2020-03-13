@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dba-01-pv
+  namespace: database
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy:
+    Retain
+  nfs:
+    path: /tmp/database/mysql01
+    server: 10.0.15.1
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dba-01-pvc
+  namespace: database
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+     requests:
+       storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: database
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: database
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: docker.registry.local:5000/mysql:v1.${BUILD_NUMBER}
+        name: mysql
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: 21121986
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: database-share
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: database-share
+        persistentVolumeClaim:
+          claimName: dba-01-pvc
+
