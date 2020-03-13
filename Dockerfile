@@ -1,6 +1,8 @@
 FROM centos/mariadb
 MAINTAINER ThanhCL
 
+USER root
+
 #updated os, install some lib packages
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
   rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7 && \
