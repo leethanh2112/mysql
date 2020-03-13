@@ -17,7 +17,7 @@ RUN echo "ZONE=\"Asia/Ho_Chi_Minh\"" > /etc/sysconfig/clock && \
   rm -rf /etc/localtime && \
   ln -s /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 
-sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 
 VOLUME /var/lib/mysql
 
