@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER ThanhCL
 
-ADD MariaDB.repo /etc/yum.repos.d/MariaDB.repo
+#ADD MariaDB.repo /etc/yum.repos.d/MariaDB.repo
 
 #updated os, install some lib packages
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
