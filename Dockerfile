@@ -18,6 +18,8 @@ RUN echo "ZONE=\"Asia/Ho_Chi_Minh\"" > /etc/sysconfig/clock && \
 
 RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/my.cnf
 
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
 EXPOSE 3306
-CMD ["/bin/bash"]
+CMD ["mysqld_safe"]
 
