@@ -6,7 +6,7 @@ metadata:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: dba-01-pv
+  name: mysql01-db
   namespace: database
 spec:
   capacity:
@@ -23,7 +23,36 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: dba-01-pvc
+  name: mysql01-db
+  namespace: database
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+     requests:
+       storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql01-log
+  namespace: database
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy:
+    Retain
+  nfs:
+    path: /tmp/log/mysql01
+    server: 10.0.15.1
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql01-log
   namespace: database
 spec:
   accessModes:
@@ -71,10 +100,15 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        - name: database-share
+        - name: database-db
           mountPath: /var/lib/mysql
+        - name: database-log
+          mountPath: /var/log/mariadb
       volumes:
-      - name: database-share
+      - name: database-db
         persistentVolumeClaim:
-          claimName: dba-01-pvc
+          claimName: mysql01-db
+      - name: database-log
+        persistentVolumeClaim:
+          claimName: mysql01-log
 
