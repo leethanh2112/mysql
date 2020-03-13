@@ -20,6 +20,9 @@ RUN echo "ZONE=\"Asia/Ho_Chi_Minh\"" > /etc/sysconfig/clock && \
 RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/my.cnf
 
 VOLUME /var/lib/mysql
+VOLUME /tmp/mysql
+VOLUME /var/run/mysqld
+
 EXPOSE 3306
 CMD ["mysqld", "--user=root"]
 
